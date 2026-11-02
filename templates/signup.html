@@ -1,0 +1,587 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Shahnuvay Marketplace</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --blue: #0755e9;
+    --navy: #101b35;
+    --bg: #f5f7fc;
+    --text: #18243b;
+    --muted: #77839a;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding-bottom: 85px;
+}
+
+/* HEADER */
+
+.header {
+    background: white;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 15px #152b4c0d;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.logo-icon {
+    width: 53px;
+    height: 53px;
+    background: linear-gradient(135deg,#0755e9,#35a5ff);
+    color: white;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    font-size: 29px;
+}
+
+.logo h1 {
+    color: var(--blue);
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.logo small {
+    color: var(--navy);
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 24px;
+}
+
+.header-actions a {
+    color: var(--navy);
+    text-decoration: none;
+    font-size: 27px;
+}
+
+/* SEARCH */
+
+.search-area {
+    background: white;
+    padding: 15px 6%;
+}
+
+.search-box {
+    max-width: 1150px;
+    margin: auto;
+    display: flex;
+    border: 2px solid #dce6fa;
+    background: #f7f9fd;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.search-box input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 15px 18px;
+    font-size: 16px;
+}
+
+.search-box button {
+    border: none;
+    background: var(--blue);
+    color: white;
+    padding: 0 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* SIGNUP CONTENT */
+
+.container {
+    max-width: 1100px;
+    margin: 35px auto;
+    padding: 0 20px;
+}
+
+.signup-wrapper {
+    max-width: 480px;
+    margin: auto;
+}
+
+.signup-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px #14233c0d;
+}
+
+.signup-banner {
+    background: linear-gradient(115deg,#082e9b,#0755e9,#35aaff);
+    padding: 35px 20px;
+    text-align: center;
+    color: white;
+}
+
+.signup-banner .icon {
+    font-size: 45px;
+    margin-bottom: 10px;
+}
+
+.signup-banner h2 {
+    font-size: 28px;
+}
+
+.signup-banner p {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #eaf3ff;
+}
+
+.signup-content {
+    padding: 30px;
+}
+
+.signup-content h3 {
+    font-size: 23px;
+    color: var(--navy);
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+/* SUCCESS AND ERROR MESSAGES */
+
+.success-message {
+    background: #e8f8ed;
+    color: #16803c;
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.success-message a {
+    color: #0755e9;
+    display: inline-block;
+    margin-top: 8px;
+    text-decoration: none;
+}
+
+.error-message {
+    background: #fff0f0;
+    color: #d62828;
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* FORM */
+
+.form-group {
+    margin-bottom: 19px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 9px;
+    color: var(--navy);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #dce3ef;
+    border-radius: 10px;
+    outline: none;
+    background: #f8faff;
+    font-size: 15px;
+    transition: .2s;
+}
+
+.form-group input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px #0755e91a;
+    background: white;
+}
+
+.signup-button {
+    width: 100%;
+    border: none;
+    padding: 15px;
+    margin-top: 5px;
+    background: var(--blue);
+    color: white;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.signup-button:hover {
+    background: #0343bf;
+    transform: translateY(-2px);
+}
+
+.login-text {
+    text-align: center;
+    margin-top: 23px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.login-text a {
+    color: var(--blue);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* FOOTER */
+
+.footer {
+    margin-top: 50px;
+    background: var(--navy);
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+.footer p {
+    font-size: 13px;
+    color: #bdc9dc;
+}
+
+/* BOTTOM NAVIGATION */
+
+.bottom-nav {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    box-shadow: 0 -4px 20px #14274715;
+    border-top: 1px solid #edf0f5;
+    padding: 10px 4px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    z-index: 1000;
+}
+
+.bottom-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    text-align: center;
+    text-decoration: none;
+    color: #738098;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.bottom-nav a:hover {
+    color: var(--blue);
+}
+
+.bottom-nav span {
+    font-size: 23px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:600px) {
+
+    .header {
+        padding: 13px 15px;
+    }
+
+    .logo-icon {
+        width: 43px;
+        height: 43px;
+        font-size: 23px;
+    }
+
+    .logo h1 {
+        font-size: 22px;
+    }
+
+    .header-actions {
+        gap: 14px;
+    }
+
+    .header-actions a {
+        font-size: 23px;
+    }
+
+    .search-area {
+        padding: 12px;
+    }
+
+    .search-box input {
+        padding: 13px 10px;
+        font-size: 14px;
+    }
+
+    .search-box button {
+        padding: 0 17px;
+        font-size: 14px;
+    }
+
+    .container {
+        margin-top: 22px;
+        padding: 0 13px;
+    }
+
+    .signup-banner {
+        padding: 28px 15px;
+    }
+
+    .signup-banner h2 {
+        font-size: 24px;
+    }
+
+    .signup-content {
+        padding: 23px 18px;
+    }
+
+    .signup-content h3 {
+        font-size: 21px;
+    }
+
+    .bottom-nav a {
+        font-size: 12px;
+    }
+
+    .bottom-nav span {
+        font-size: 22px;
+    }
+
+    .footer {
+        margin-top: 35px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <a href="/" class="logo">
+        <div class="logo-icon">🛍</div>
+
+        <div>
+            <h1>Shahnuvay</h1>
+            <small>MARKETPLACE</small>
+        </div>
+    </a>
+
+    <div class="header-actions">
+        <a href="/cart" title="Cart">🛒</a>
+        <a href="/profile" title="Account">👤</a>
+    </div>
+
+</header>
+
+<!-- SEARCH -->
+
+<div class="search-area">
+
+    <form action="/shop" method="GET" class="search-box">
+
+        <input
+            type="search"
+            name="q"
+            placeholder="Search for products..."
+        >
+
+        <button type="submit">Search</button>
+
+    </form>
+
+</div>
+
+<!-- SIGNUP CONTENT -->
+
+<main class="container">
+
+    <div class="signup-wrapper">
+
+        <div class="signup-card">
+
+            <div class="signup-banner">
+
+                <div class="icon">🛍️</div>
+
+                <h2>Join Shahnuvay!</h2>
+
+                <p>Create your account and start shopping.</p>
+
+            </div>
+
+            <div class="signup-content">
+
+                <h3>Create Your Account</h3>
+
+                <p class="subtitle">
+                    Enter your details to get started.
+                </p>
+
+                <!-- SUCCESS MESSAGE -->
+
+                {% if success_message %}
+                    <div class="success-message">
+                        {{ success_message }}
+                        <br>
+                        <a href="/login">Login Now →</a>
+                    </div>
+                {% endif %}
+
+                <!-- ERROR MESSAGE -->
+
+                {% if error_message %}
+                    <div class="error-message">
+                        {{ error_message }}
+                    </div>
+                {% endif %}
+
+                <!-- SIGNUP FORM -->
+
+                <form method="POST">
+
+                    <div class="form-group">
+
+                        <label for="name">Full Name</label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Your Name"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="email">Email Address</label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Your Email"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="password">Create Password</label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Create Password"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                    </div>
+
+                    <button type="submit" class="signup-button">
+                        Create My Account →
+                    </button>
+
+                </form>
+
+                <p class="login-text">
+                    Already have an account?
+                    <a href="/login">Login</a>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+    <p>© 2026 Shahnuvay Marketplace. All rights reserved.</p>
+</footer>
+
+<!-- BOTTOM NAVIGATION -->
+
+<nav class="bottom-nav">
+
+    <a href="/">
+        <span>⌂</span>
+        Home
+    </a>
+
+    <a href="/shop">
+        <span>▦</span>
+        Shop
+    </a>
+
+    <a href="/cart">
+        <span>♡</span>
+        Cart
+    </a>
+
+    <a href="/profile">
+        <span>♙</span>
+        Account
+    </a>
+
+</nav>
+
+</body>
+</html>

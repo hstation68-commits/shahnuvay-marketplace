@@ -1,0 +1,635 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop - Shahnuvay Marketplace</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --blue: #0755e9;
+    --navy: #101b35;
+    --bg: #f5f7fc;
+    --text: #18243b;
+    --muted: #77839a;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding-bottom: 85px;
+}
+
+/* HEADER */
+
+.header {
+    background: white;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 15px #152b4c0d;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.logo-icon {
+    width: 53px;
+    height: 53px;
+    background: linear-gradient(135deg,#0755e9,#35a5ff);
+    color: white;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    font-size: 29px;
+}
+
+.logo h1 {
+    color: var(--blue);
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.logo small {
+    color: var(--navy);
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 24px;
+}
+
+.header-actions a {
+    color: var(--navy);
+    text-decoration: none;
+    font-size: 27px;
+}
+
+/* SEARCH */
+
+.search-area {
+    background: white;
+    padding: 15px 6%;
+}
+
+.search-box {
+    max-width: 1150px;
+    margin: auto;
+    display: flex;
+    border: 2px solid #dce6fa;
+    background: #f7f9fd;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.search-box input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 15px 18px;
+    font-size: 16px;
+}
+
+.search-box button {
+    border: none;
+    background: var(--blue);
+    color: white;
+    padding: 0 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* MAIN */
+
+.container {
+    max-width: 1250px;
+    margin: 35px auto;
+    padding: 0 22px;
+}
+
+.page-heading {
+    margin-bottom: 25px;
+}
+
+.page-heading h2 {
+    color: var(--navy);
+    font-size: 30px;
+}
+
+.page-heading p {
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.6;
+}
+
+/* PRODUCT GRID */
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+}
+
+.product-card {
+    background: white;
+    border: 1px solid #edf0f5;
+    border-radius: 17px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px #14233c08;
+    transition: .25s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px #14233c15;
+}
+
+.product-image {
+    height: 210px;
+    background: #f5f7fc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.no-image {
+    font-size: 55px;
+}
+
+.product-info {
+    padding: 17px;
+}
+
+.product-name {
+    font-size: 17px;
+    color: var(--navy);
+    margin-bottom: 9px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.product-description {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    min-height: 42px;
+}
+
+.product-price {
+    color: var(--blue);
+    font-size: 21px;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+
+.stock {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 15px;
+}
+
+.product-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.details-button,
+.cart-button {
+    width: 100%;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 9px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.details-button {
+    background: #eaf1ff;
+    color: var(--blue);
+}
+
+.cart-button {
+    background: var(--blue);
+    color: white;
+}
+
+.cart-button:disabled {
+    background: #aab3c3;
+    cursor: not-allowed;
+}
+
+/* EMPTY STATE */
+
+.empty-state {
+    background: white;
+    padding: 55px 20px;
+    text-align: center;
+    border-radius: 17px;
+    border: 1px solid #edf0f5;
+}
+
+.empty-state .icon {
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+.empty-state h3 {
+    color: var(--navy);
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+/* FOOTER */
+
+.footer {
+    margin-top: 50px;
+    background: var(--navy);
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+.footer p {
+    font-size: 13px;
+    color: #bdc9dc;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    box-shadow: 0 -4px 20px #14274715;
+    border-top: 1px solid #edf0f5;
+    padding: 10px 4px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    z-index: 1000;
+}
+
+.bottom-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    text-align: center;
+    text-decoration: none;
+    color: #738098;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.bottom-nav a:hover,
+.bottom-nav a.active {
+    color: var(--blue);
+}
+
+.bottom-nav span {
+    font-size: 23px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media(max-width:700px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 13px;
+    }
+
+    .product-image {
+        height: 170px;
+    }
+
+    .product-info {
+        padding: 12px;
+    }
+
+    .product-name {
+        font-size: 15px;
+    }
+
+    .product-description {
+        font-size: 12px;
+    }
+
+    .product-price {
+        font-size: 18px;
+    }
+}
+
+@media(max-width:600px) {
+    .header {
+        padding: 13px 15px;
+    }
+
+    .logo-icon {
+        width: 43px;
+        height: 43px;
+        font-size: 23px;
+    }
+
+    .logo h1 {
+        font-size: 22px;
+    }
+
+    .header-actions {
+        gap: 14px;
+    }
+
+    .header-actions a {
+        font-size: 23px;
+    }
+
+    .search-area {
+        padding: 12px;
+    }
+
+    .search-box input {
+        padding: 13px 10px;
+        font-size: 14px;
+    }
+
+    .search-box button {
+        padding: 0 17px;
+        font-size: 14px;
+    }
+
+    .container {
+        margin-top: 23px;
+        padding: 0 12px;
+    }
+
+    .page-heading h2 {
+        font-size: 25px;
+    }
+
+    .product-image {
+        height: 145px;
+    }
+
+    .details-button,
+    .cart-button {
+        padding: 10px 5px;
+        font-size: 12px;
+    }
+
+    .bottom-nav a {
+        font-size: 12px;
+    }
+
+    .bottom-nav span {
+        font-size: 22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <a href="/" class="logo">
+        <div class="logo-icon">🛍</div>
+
+        <div>
+            <h1>Shahnuvay</h1>
+            <small>MARKETPLACE</small>
+        </div>
+    </a>
+
+    <div class="header-actions">
+        <a href="/cart" title="Cart">🛒</a>
+        <a href="/profile" title="Account">👤</a>
+    </div>
+
+</header>
+
+<!-- SEARCH -->
+
+<div class="search-area">
+
+    <form action="/shop" method="GET" class="search-box">
+
+        <input
+            type="search"
+            name="q"
+            placeholder="Search for products..."
+            value="{{ search_query }}"
+        >
+
+        <button type="submit">Search</button>
+
+    </form>
+
+</div>
+
+<!-- SHOP -->
+
+<main class="container">
+
+    <div class="page-heading">
+
+        <h2>Explore Our Shop 🛍️</h2>
+
+        <p>
+            Discover products available at Shahnuvay Marketplace.
+        </p>
+
+    </div>
+
+    {% if products %}
+
+        <div class="product-grid">
+
+            {% for product in products %}
+
+                <div class="product-card">
+
+                    <div class="product-image">
+
+                        {% if product.image %}
+
+                            <img
+                                src="{{ product.image }}"
+                                alt="{{ product.name }}"
+                            >
+
+                        {% else %}
+
+                            <div class="no-image">📦</div>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="product-info">
+
+                        <h3 class="product-name">
+                            {{ product.name }}
+                        </h3>
+
+                        <p class="product-description">
+                            {{ product.description or "No description available." }}
+                        </p>
+
+                        <p class="product-price">
+                            Rs. {{ "%.2f"|format(product.price) }}
+                        </p>
+
+                        <p class="stock">
+                            Available Stock: {{ product.stock }}
+                        </p>
+
+                        <div class="product-buttons">
+
+                            <a
+                                href="{{ url_for('product_details', product_id=product.id) }}"
+                                class="details-button"
+                            >
+                                View Details
+                            </a>
+
+                            <form
+                                action="{{ url_for('add_to_cart', product_id=product.id) }}"
+                                method="POST"
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="cart-button"
+                                    {% if product.stock <= 0 %}disabled{% endif %}
+                                >
+                                    {% if product.stock > 0 %}
+                                        Add to Cart
+                                    {% else %}
+                                        Out of Stock
+                                    {% endif %}
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-state">
+
+            <div class="icon">🛍️</div>
+
+            {% if search_query %}
+
+                <h3>No Products Found</h3>
+
+                <p>
+                    No products matched "{{ search_query }}".
+                    Try another search.
+                </p>
+
+            {% else %}
+
+                <h3>No Products Available Yet</h3>
+
+                <p>
+                    Products will appear here when they are added
+                    to Shahnuvay Marketplace.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    {% endif %}
+
+</main>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+    <p>© 2026 Shahnuvay Marketplace. All rights reserved.</p>
+</footer>
+
+<!-- BOTTOM NAVIGATION -->
+
+<nav class="bottom-nav">
+
+    <a href="/">
+        <span>⌂</span>
+        Home
+    </a>
+
+    <a href="/shop" class="active">
+        <span>▦</span>
+        Shop
+    </a>
+
+    <a href="/cart">
+        <span>♡</span>
+        Cart
+    </a>
+
+    <a href="/profile">
+        <span>♙</span>
+        Account
+    </a>
+
+</nav>
+
+</body>
+</html>

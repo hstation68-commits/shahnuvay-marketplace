@@ -1,0 +1,725 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Cart - Shahnuvay</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --blue: #0755e9;
+    --navy: #101b35;
+    --bg: #f5f7fc;
+    --text: #18243b;
+    --muted: #77839a;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding-bottom: 85px;
+}
+
+/* HEADER */
+
+.header {
+    background: white;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 15px #152b4c0d;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.logo-icon {
+    width: 53px;
+    height: 53px;
+    background: linear-gradient(135deg,#0755e9,#35a5ff);
+    color: white;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    font-size: 29px;
+}
+
+.logo h1 {
+    color: var(--blue);
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.logo small {
+    color: var(--navy);
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 24px;
+}
+
+.header-actions a {
+    color: var(--navy);
+    text-decoration: none;
+    font-size: 27px;
+}
+
+/* SEARCH */
+
+.search-area {
+    background: white;
+    padding: 15px 6%;
+}
+
+.search-box {
+    max-width: 1150px;
+    margin: auto;
+    display: flex;
+    border: 2px solid #dce6fa;
+    background: #f7f9fd;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.search-box input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 15px 18px;
+    font-size: 16px;
+}
+
+.search-box button {
+    border: none;
+    background: var(--blue);
+    color: white;
+    padding: 0 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* MAIN */
+
+.container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.page-heading {
+    margin-bottom: 25px;
+}
+
+.page-heading h2 {
+    font-size: 30px;
+    color: var(--navy);
+}
+
+.page-heading p {
+    color: var(--muted);
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+/* CART LAYOUT */
+
+.cart-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 22px;
+    align-items: start;
+}
+
+/* PRODUCT CARD */
+
+.cart-products {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.product-card {
+    background: white;
+    border: 1px solid #edf0f5;
+    border-radius: 17px;
+    padding: 22px;
+    box-shadow: 0 5px 20px #172d4a0b;
+}
+
+.product-card h3 {
+    color: var(--navy);
+    font-size: 19px;
+    margin-bottom: 12px;
+}
+
+.product-price {
+    color: var(--blue);
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.quantity-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.quantity-label {
+    color: var(--muted);
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.quantity-form {
+    display: inline-flex;
+}
+
+.quantity-button {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #dce6fa;
+    background: #f2f6ff;
+    color: var(--blue);
+    font-size: 21px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.quantity-button:hover {
+    background: var(--blue);
+    color: white;
+}
+
+.quantity-value {
+    min-width: 32px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.product-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #edf0f5;
+}
+
+.subtotal {
+    color: var(--navy);
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.subtotal span {
+    color: var(--blue);
+}
+
+.remove-button {
+    border: none;
+    background: #fff0f0;
+    color: #dc3545;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.remove-button:hover {
+    background: #ffe0e0;
+}
+
+/* ORDER SUMMARY */
+
+.summary-card {
+    background: white;
+    padding: 23px;
+    border-radius: 17px;
+    border: 1px solid #edf0f5;
+    box-shadow: 0 5px 20px #172d4a0b;
+    position: sticky;
+    top: 20px;
+}
+
+.summary-card h3 {
+    color: var(--navy);
+    font-size: 21px;
+    margin-bottom: 20px;
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 17px;
+    border-top: 1px solid #edf0f5;
+    font-size: 17px;
+    font-weight: bold;
+    color: var(--navy);
+}
+
+.total-price {
+    color: var(--blue);
+    font-size: 21px;
+}
+
+.checkout-button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    background: var(--blue);
+    color: white;
+    padding: 15px;
+    margin-top: 22px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: .2s;
+}
+
+.checkout-button:hover {
+    background: #0343bf;
+    transform: translateY(-2px);
+}
+
+.continue-link {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: var(--blue);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* EMPTY CART */
+
+.empty-cart {
+    background: white;
+    text-align: center;
+    padding: 55px 20px;
+    border-radius: 20px;
+    box-shadow: 0 6px 25px #152b4c09;
+}
+
+.empty-icon {
+    font-size: 70px;
+    margin-bottom: 15px;
+}
+
+.empty-cart h3 {
+    font-size: 24px;
+    color: var(--navy);
+}
+
+.empty-cart p {
+    color: var(--muted);
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.shop-button {
+    display: inline-block;
+    margin-top: 22px;
+    background: var(--blue);
+    color: white;
+    padding: 13px 25px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* FOOTER */
+
+.footer {
+    margin-top: 50px;
+    background: var(--navy);
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+.footer p {
+    font-size: 13px;
+    color: #bdc9dc;
+}
+
+/* BOTTOM NAVIGATION */
+
+.bottom-nav {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    box-shadow: 0 -4px 20px #14274715;
+    border-top: 1px solid #edf0f5;
+    padding: 10px 4px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    z-index: 1000;
+}
+
+.bottom-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    text-align: center;
+    text-decoration: none;
+    color: #738098;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.bottom-nav a:hover,
+.bottom-nav a.active {
+    color: var(--blue);
+}
+
+.bottom-nav span {
+    font-size: 23px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:800px) {
+
+    .cart-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-card {
+        position: static;
+    }
+}
+
+@media(max-width:600px) {
+
+    .header {
+        padding: 13px 15px;
+    }
+
+    .logo-icon {
+        width: 43px;
+        height: 43px;
+        font-size: 23px;
+    }
+
+    .logo h1 {
+        font-size: 22px;
+    }
+
+    .header-actions {
+        gap: 14px;
+    }
+
+    .header-actions a {
+        font-size: 23px;
+    }
+
+    .search-area {
+        padding: 12px;
+    }
+
+    .search-box input {
+        padding: 13px 10px;
+        font-size: 14px;
+    }
+
+    .search-box button {
+        padding: 0 17px;
+        font-size: 14px;
+    }
+
+    .container {
+        margin-top: 22px;
+        padding: 0 13px;
+    }
+
+    .page-heading h2 {
+        font-size: 25px;
+    }
+
+    .product-card {
+        padding: 17px;
+    }
+
+    .product-card h3 {
+        font-size: 17px;
+    }
+
+    .summary-card {
+        padding: 19px;
+    }
+
+    .empty-cart {
+        padding: 40px 15px;
+    }
+
+    .bottom-nav a {
+        font-size: 12px;
+    }
+
+    .bottom-nav span {
+        font-size: 22px;
+    }
+
+    .footer {
+        margin-top: 35px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <a href="/" class="logo">
+        <div class="logo-icon">🛍</div>
+
+        <div>
+            <h1>Shahnuvay</h1>
+            <small>MARKETPLACE</small>
+        </div>
+    </a>
+
+    <div class="header-actions">
+        <a href="/cart" title="Cart">🛒</a>
+        <a href="/profile" title="Account">👤</a>
+    </div>
+
+</header>
+
+<!-- SEARCH -->
+
+<div class="search-area">
+
+    <form action="/shop" method="GET" class="search-box">
+
+        <input
+            type="search"
+            name="q"
+            placeholder="Search for products..."
+        >
+
+        <button type="submit">Search</button>
+
+    </form>
+
+</div>
+
+<!-- CART CONTENT -->
+
+<main class="container">
+
+    <div class="page-heading">
+        <h2>My Shopping Cart 🛒</h2>
+        <p>Review your selected products before checkout.</p>
+    </div>
+
+    {% if products %}
+
+        <div class="cart-layout">
+
+            <div class="cart-products">
+
+                {% for product in products %}
+
+                    <div class="product-card">
+
+                        <h3>{{ product.name }}</h3>
+
+                        <p class="product-price">
+                            Rs. {{ product.price }}
+                        </p>
+
+                        <div class="quantity-area">
+
+                            <span class="quantity-label">
+                                Quantity:
+                            </span>
+
+                            <form
+                                action="{{ url_for('update_cart', product_id=product.id, action='decrease') }}"
+                                method="POST"
+                                class="quantity-form"
+                            >
+                                <button
+                                    type="submit"
+                                    class="quantity-button"
+                                >−</button>
+                            </form>
+
+                            <span class="quantity-value">
+                                {{ product.quantity }}
+                            </span>
+
+                            <form
+                                action="{{ url_for('update_cart', product_id=product.id, action='increase') }}"
+                                method="POST"
+                                class="quantity-form"
+                            >
+                                <button
+                                    type="submit"
+                                    class="quantity-button"
+                                >+</button>
+                            </form>
+
+                        </div>
+
+                        <div class="product-bottom">
+
+                            <p class="subtotal">
+                                Subtotal:
+                                <span>Rs. {{ product.subtotal }}</span>
+                            </p>
+
+                            <form
+                                action="{{ url_for('remove_from_cart', product_id=product.id) }}"
+                                method="POST"
+                            >
+                                <button
+                                    type="submit"
+                                    class="remove-button"
+                                >
+                                    Remove from Cart
+                                </button>
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+            <!-- ORDER SUMMARY -->
+
+            <aside class="summary-card">
+
+                <h3>Order Summary</h3>
+
+                <div class="summary-line">
+                    <span>Cart Total</span>
+                    <span>Rs. {{ total }}</span>
+                </div>
+
+                <div class="summary-total">
+                    <span>Total</span>
+
+                    <span class="total-price">
+                        Rs. {{ total }}
+                    </span>
+                </div>
+
+                <a href="/checkout" class="checkout-button">
+                    Proceed to Checkout →
+                </a>
+
+                <a href="/shop" class="continue-link">
+                    ← Continue Shopping
+                </a>
+
+            </aside>
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-cart">
+
+            <div class="empty-icon">🛒</div>
+
+            <h3>Your Cart is Empty!</h3>
+
+            <p>
+                You haven't added any products to your cart yet.
+                Explore our store and find something you like.
+            </p>
+
+            <a href="/shop" class="shop-button">
+                Start Shopping →
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</main>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+    <p>© 2026 Shahnuvay Marketplace. All rights reserved.</p>
+</footer>
+
+<!-- BOTTOM NAVIGATION -->
+
+<nav class="bottom-nav">
+
+    <a href="/">
+        <span>⌂</span>
+        Home
+    </a>
+
+    <a href="/shop">
+        <span>▦</span>
+        Shop
+    </a>
+
+    <a href="/cart" class="active">
+        <span>🛒</span>
+        Cart
+    </a>
+
+    <a href="/profile">
+        <span>♙</span>
+        Account
+    </a>
+
+</nav>
+
+</body>
+</html>

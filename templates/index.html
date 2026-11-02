@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Shahnuvay | Marketplace</title>
+
+<style>
+
+/* =================================
+   SHAHNUVAY MARKETPLACE
+   MODERN CUSTOMER APP DESIGN
+================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --blue: #0755e9;
+    --navy: #101b35;
+    --orange: #ff713d;
+    --bg: #f5f7fc;
+    --text: #18243b;
+    --muted: #77839a;
+    --white: #fff;
+    --success: #159b65;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding-bottom: 85px;
+}
+
+/* HEADER */
+
+.header {
+    background: white;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 15px #152b4c0d;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.logo-icon {
+    width: 53px;
+    height: 53px;
+    background: linear-gradient(135deg,#0755e9,#35a5ff);
+    color: white;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    font-size: 29px;
+}
+
+.logo h1 {
+    color: var(--blue);
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.logo small {
+    color: var(--navy);
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.header-actions a {
+    color: var(--navy);
+    text-decoration: none;
+    font-size: 27px;
+}
+
+/* SEARCH */
+
+.search-area {
+    background: white;
+    padding: 15px 6%;
+}
+
+.search-box {
+    max-width: 1150px;
+    margin: auto;
+    display: flex;
+    border: 2px solid #dce6fa;
+    background: #f7f9fd;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.search-box input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 15px 18px;
+    font-size: 16px;
+}
+
+.search-box button {
+    border: none;
+    background: var(--blue);
+    color: white;
+    padding: 0 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.search-box button:hover {
+    background: #0343bf;
+}
+
+/* MAIN CONTENT */
+
+.container {
+    max-width: 1450px;
+    margin: auto;
+    padding: 22px 5%;
+}
+
+/* WELCOME BANNER */
+
+.hero {
+    min-height: 310px;
+    border-radius: 22px;
+    overflow: hidden;
+    background: linear-gradient(115deg,#082e9b,#0755e9,#35aaff);
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 45px;
+    color: white;
+    box-shadow: 0 10px 28px #0755e933;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 650px;
+}
+
+.hero h2 {
+    font-size: clamp(34px,5vw,58px);
+    line-height: 1.12;
+    font-weight: 900;
+}
+
+.hero h2 span {
+    color: #ffe65c;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-top: 17px;
+    color: #eaf3ff;
+}
+
+.hero-button {
+    display: inline-block;
+    background: white;
+    color: var(--blue);
+    text-decoration: none;
+    padding: 13px 25px;
+    margin-top: 25px;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: .25s;
+}
+
+.hero-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px #001d6b55;
+}
+
+.hero-decoration {
+    position: absolute;
+    right: 7%;
+    font-size: clamp(85px,15vw,170px);
+    opacity: .9;
+}
+
+/* PRODUCT SECTION */
+
+.section {
+    margin-top: 38px;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-title h2 {
+    font-size: 27px;
+    color: var(--navy);
+}
+
+.section-title a {
+    color: var(--blue);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* PRODUCTS GRID */
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4,minmax(0,1fr));
+    gap: 20px;
+}
+
+.product-card {
+    background: white;
+    border: 1px solid #edf0f5;
+    border-radius: 17px;
+    padding: 15px;
+    box-shadow: 0 5px 20px #172d4a0b;
+    transition: .3s;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px #172d4a18;
+}
+
+.product-image {
+    height: 210px;
+    border-radius: 12px;
+    background: #f4f7fc;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    color: #a5b2c8;
+    font-size: 55px;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.product-card h3 {
+    font-size: 17px;
+    margin-top: 14px;
+    color: var(--navy);
+}
+
+.product-description {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 6px;
+    min-height: 38px;
+}
+
+.product-price {
+    color: var(--blue);
+    font-size: 19px;
+    font-weight: 900;
+    margin-top: 10px;
+}
+
+.stock {
+    color: var(--success);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.details-button {
+    display: block;
+    background: var(--blue);
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    padding: 12px;
+    margin-top: 14px;
+    border-radius: 9px;
+    font-weight: bold;
+    transition: .2s;
+}
+
+.details-button:hover {
+    background: var(--orange);
+}
+
+/* EMPTY STORE */
+
+.empty-store {
+    background: white;
+    border: 1px solid #e8edf5;
+    border-radius: 22px;
+    text-align: center;
+    padding: 55px 20px;
+    box-shadow: 0 6px 25px #152b4c09;
+}
+
+.empty-icon {
+    font-size: 65px;
+    margin-bottom: 15px;
+}
+
+.empty-store h2 {
+    font-size: 25px;
+    color: var(--navy);
+}
+
+.empty-store p {
+    color: var(--muted);
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+/* FOOTER */
+
+.footer {
+    margin-top: 55px;
+    background: var(--navy);
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+.footer p {
+    font-size: 13px;
+    color: #bdc9dc;
+}
+
+/* =================================
+   FIXED BOTTOM NAVIGATION
+   DESKTOP + MOBILE
+================================= */
+
+.bottom-nav {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    box-shadow: 0 -4px 20px #14274715;
+    border-top: 1px solid #edf0f5;
+    padding: 10px 4px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    z-index: 1000;
+}
+
+.bottom-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    text-align: center;
+    text-decoration: none;
+    color: #738098;
+    font-size: 13px;
+    font-weight: bold;
+    transition: .2s;
+}
+
+.bottom-nav a:hover,
+.bottom-nav a.active {
+    color: var(--blue);
+}
+
+.bottom-nav span {
+    display: block;
+    font-size: 23px;
+    line-height: 1.2;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 950px) {
+
+    .product-grid {
+        grid-template-columns: repeat(3,minmax(0,1fr));
+    }
+
+    .product-image {
+        height: 175px;
+    }
+}
+
+@media(max-width: 600px) {
+
+    body {
+        padding-bottom: 85px;
+    }
+
+    .header {
+        padding: 13px 15px;
+    }
+
+    .logo-icon {
+        width: 43px;
+        height: 43px;
+        font-size: 23px;
+    }
+
+    .logo h1 {
+        font-size: 22px;
+    }
+
+    .header-actions {
+        gap: 14px;
+    }
+
+    .header-actions a {
+        font-size: 23px;
+    }
+
+    .search-area {
+        padding: 12px;
+    }
+
+    .search-box input {
+        padding: 13px 10px;
+        font-size: 14px;
+    }
+
+    .search-box button {
+        padding: 0 17px;
+        font-size: 14px;
+    }
+
+    .container {
+        padding: 13px;
+    }
+
+    .hero {
+        min-height: 225px;
+        padding: 22px;
+        border-radius: 17px;
+    }
+
+    .hero-content {
+        max-width: 70%;
+    }
+
+    .hero h2 {
+        font-size: 33px;
+    }
+
+    .hero p {
+        font-size: 14px;
+    }
+
+    .hero-decoration {
+        right: 3%;
+        font-size: 75px;
+    }
+
+    .hero-button {
+        padding: 10px 17px;
+        font-size: 13px;
+    }
+
+    .section {
+        margin-top: 25px;
+    }
+
+    .section-title h2 {
+        font-size: 20px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+        gap: 11px;
+    }
+
+    .product-card {
+        padding: 10px;
+    }
+
+    .product-image {
+        height: 135px;
+    }
+
+    .product-card h3 {
+        font-size: 14px;
+    }
+
+    .product-description {
+        font-size: 12px;
+    }
+
+    .product-price {
+        font-size: 16px;
+    }
+
+    .details-button {
+        font-size: 12px;
+        padding: 10px 5px;
+    }
+
+    .empty-store {
+        padding: 40px 15px;
+    }
+
+    .empty-store h2 {
+        font-size: 21px;
+    }
+
+    .footer {
+        margin-top: 35px;
+    }
+
+    .bottom-nav a {
+        font-size: 12px;
+    }
+
+    .bottom-nav span {
+        font-size: 22px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <a href="/" class="logo">
+        <div class="logo-icon">🛍</div>
+
+        <div>
+            <h1>Shahnuvay</h1>
+            <small>MARKETPLACE</small>
+        </div>
+    </a>
+
+    <div class="header-actions">
+        <a href="/cart" title="Cart">🛒</a>
+        <a href="/profile" title="Account">👤</a>
+    </div>
+
+</header>
+
+<!-- SEARCH -->
+
+<div class="search-area">
+
+    <form action="/shop" method="GET" class="search-box">
+
+        <input
+            type="search"
+            name="q"
+            placeholder="Search for products..."
+        >
+
+        <button type="submit">Search</button>
+
+    </form>
+
+</div>
+
+<main class="container">
+
+    <!-- WELCOME BANNER -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h2>
+                Welcome to<br>
+                <span>Shahnuvay!</span>
+            </h2>
+
+            <p>
+                Discover products and enjoy your shopping experience.
+            </p>
+
+            <a href="/shop" class="hero-button">
+                Explore Store →
+            </a>
+
+        </div>
+
+        <div class="hero-decoration">🛍️</div>
+
+    </section>
+
+    <!-- PRODUCTS -->
+
+    <section class="section">
+
+        {% if products %}
+
+            <div class="section-title">
+                <h2>Our Products</h2>
+                <a href="/shop">View All →</a>
+            </div>
+
+            <div class="product-grid">
+
+                {% for product in products %}
+
+                    <div class="product-card">
+
+                        <div class="product-image">
+
+                            {% if product.image %}
+
+                                <img
+                                    src="{{ product.image }}"
+                                    alt="{{ product.name }}"
+                                >
+
+                            {% else %}
+
+                                🛍️
+
+                            {% endif %}
+
+                        </div>
+
+                        <h3>{{ product.name }}</h3>
+
+                        <p class="product-description">
+                            {{ product.description }}
+                        </p>
+
+                        <p class="product-price">
+                            Rs. {{ product.price }}
+                        </p>
+
+                        <p class="stock">
+
+                            {% if product.stock > 0 %}
+
+                                In Stock: {{ product.stock }}
+
+                            {% else %}
+
+                                Out of Stock
+
+                            {% endif %}
+
+                        </p>
+
+                        <a
+                            href="{{ url_for('product_details', product_id=product.id) }}"
+                            class="details-button"
+                        >
+                            View Details
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty-store">
+
+                <div class="empty-icon">🛍️</div>
+
+                <h2>Welcome to Shahnuvay Marketplace</h2>
+
+                <p>
+                    Our store is getting ready.
+                    Products will appear here when available.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+    <p>© 2026 Shahnuvay Marketplace. All rights reserved.</p>
+</footer>
+
+<!-- FIXED BOTTOM NAVIGATION -->
+
+<nav class="bottom-nav">
+
+    <a href="/" class="active">
+        <span>⌂</span>
+        Home
+    </a>
+
+    <a href="/shop">
+        <span>▦</span>
+        Shop
+    </a>
+
+    <a href="/cart">
+        <span>♡</span>
+        Cart
+    </a>
+
+    <a href="/profile">
+        <span>♙</span>
+        Account
+    </a>
+
+</nav>
+
+</body>
+</html>

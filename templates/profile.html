@@ -1,0 +1,582 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile - Shahnuvay</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --blue: #0755e9;
+    --navy: #101b35;
+    --orange: #ff713d;
+    --bg: #f5f7fc;
+    --text: #18243b;
+    --muted: #77839a;
+    --white: #fff;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding-bottom: 85px;
+}
+
+/* HEADER */
+
+.header {
+    background: white;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 15px #152b4c0d;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.logo-icon {
+    width: 53px;
+    height: 53px;
+    background: linear-gradient(135deg,#0755e9,#35a5ff);
+    color: white;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    font-size: 29px;
+}
+
+.logo h1 {
+    color: var(--blue);
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.logo small {
+    color: var(--navy);
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.header-actions a {
+    color: var(--navy);
+    text-decoration: none;
+    font-size: 27px;
+}
+
+/* SEARCH */
+
+.search-area {
+    background: white;
+    padding: 15px 6%;
+}
+
+.search-box {
+    max-width: 1150px;
+    margin: auto;
+    display: flex;
+    border: 2px solid #dce6fa;
+    background: #f7f9fd;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.search-box input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 15px 18px;
+    font-size: 16px;
+}
+
+.search-box button {
+    border: none;
+    background: var(--blue);
+    color: white;
+    padding: 0 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* MAIN */
+
+.container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* PAGE TITLE */
+
+.page-heading {
+    margin-bottom: 22px;
+}
+
+.page-heading h2 {
+    font-size: 29px;
+    color: var(--navy);
+}
+
+.page-heading p {
+    color: var(--muted);
+    margin-top: 7px;
+    font-size: 14px;
+}
+
+/* PROFILE CARD */
+
+.profile-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px #14233c0d;
+}
+
+.profile-banner {
+    height: 155px;
+    background: linear-gradient(115deg,#082e9b,#0755e9,#35aaff);
+}
+
+.profile-info {
+    text-align: center;
+    padding: 0 25px 28px;
+}
+
+.avatar {
+    width: 105px;
+    height: 105px;
+    margin: -52px auto 15px;
+    border: 5px solid white;
+    border-radius: 50%;
+    background: #e7f1f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+}
+
+.profile-info h2 {
+    font-size: 25px;
+    margin-bottom: 8px;
+    color: var(--navy);
+}
+
+.email {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.member {
+    display: inline-block;
+    margin-top: 13px;
+    padding: 7px 15px;
+    background: #e8f8f2;
+    color: #16835f;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* PROFILE MENU */
+
+.menu {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 15px;
+    padding: 28px 0 5px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: var(--text);
+    background: #f7f9fd;
+    border: 1px solid #edf0f5;
+    border-radius: 13px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    text-align: left;
+    transition: .2s;
+}
+
+.menu a:hover {
+    background: #eaf2fa;
+    transform: translateY(-3px);
+}
+
+.menu-icon {
+    font-size: 27px;
+}
+
+.menu-text strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+
+.menu-text small {
+    color: #8490a3;
+    font-size: 12px;
+}
+
+/* LOGIN / SIGNUP */
+
+.auth-area {
+    padding: 28px 0 5px;
+    max-width: 420px;
+    margin: auto;
+}
+
+.auth-area p {
+    color: var(--muted);
+    margin: 12px 0 20px;
+}
+
+.btn {
+    display: block;
+    padding: 15px;
+    margin-top: 12px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: .2s;
+}
+
+.login {
+    background: var(--blue);
+    color: white;
+}
+
+.signup {
+    background: #e9f5f2;
+    color: #16835f;
+}
+
+.logout {
+    background: #fff0f0;
+    color: #dc3545;
+    margin: 25px auto 0;
+    max-width: 420px;
+}
+
+.btn:hover {
+    opacity: .85;
+    transform: translateY(-2px);
+}
+
+/* FOOTER */
+
+.footer {
+    margin-top: 50px;
+    background: var(--navy);
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+.footer p {
+    font-size: 13px;
+    color: #bdc9dc;
+}
+
+/* BOTTOM NAVIGATION */
+
+.bottom-nav {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    box-shadow: 0 -4px 20px #14274715;
+    border-top: 1px solid #edf0f5;
+    padding: 10px 4px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    z-index: 1000;
+}
+
+.bottom-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    text-align: center;
+    text-decoration: none;
+    color: #738098;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.bottom-nav a:hover,
+.bottom-nav a.active {
+    color: var(--blue);
+}
+
+.bottom-nav span {
+    font-size: 23px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:600px) {
+
+    .header {
+        padding: 13px 15px;
+    }
+
+    .logo-icon {
+        width: 43px;
+        height: 43px;
+        font-size: 23px;
+    }
+
+    .logo h1 {
+        font-size: 22px;
+    }
+
+    .header-actions {
+        gap: 14px;
+    }
+
+    .header-actions a {
+        font-size: 23px;
+    }
+
+    .search-area {
+        padding: 12px;
+    }
+
+    .search-box input {
+        padding: 13px 10px;
+        font-size: 14px;
+    }
+
+    .search-box button {
+        padding: 0 17px;
+        font-size: 14px;
+    }
+
+    .container {
+        margin-top: 22px;
+        padding: 0 13px;
+    }
+
+    .page-heading h2 {
+        font-size: 24px;
+    }
+
+    .profile-banner {
+        height: 125px;
+    }
+
+    .profile-info {
+        padding: 0 17px 22px;
+    }
+
+    .profile-info h2 {
+        font-size: 22px;
+    }
+
+    .menu {
+        grid-template-columns: 1fr;
+        padding-top: 22px;
+    }
+
+    .menu a {
+        padding: 17px;
+    }
+
+    .footer {
+        margin-top: 35px;
+    }
+
+    .bottom-nav a {
+        font-size: 12px;
+    }
+
+    .bottom-nav span {
+        font-size: 22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <a href="/" class="logo">
+        <div class="logo-icon">🛍</div>
+
+        <div>
+            <h1>Shahnuvay</h1>
+            <small>MARKETPLACE</small>
+        </div>
+    </a>
+
+    <div class="header-actions">
+        <a href="/cart" title="Cart">🛒</a>
+        <a href="/profile" title="Account">👤</a>
+    </div>
+
+</header>
+
+<!-- SEARCH -->
+
+<div class="search-area">
+
+    <form action="/shop" method="GET" class="search-box">
+
+        <input
+            type="search"
+            name="q"
+            placeholder="Search for products..."
+        >
+
+        <button type="submit">Search</button>
+
+    </form>
+
+</div>
+
+<!-- PROFILE CONTENT -->
+
+<main class="container">
+
+    <div class="page-heading">
+        <h2>My Account</h2>
+        <p>Manage your Shahnuvay account.</p>
+    </div>
+
+    <div class="profile-card">
+
+        <div class="profile-banner"></div>
+
+        <div class="profile-info">
+
+            <div class="avatar">👤</div>
+
+            {% if user %}
+
+                <h2>{{ user.name }}</h2>
+
+                <p class="email">{{ user.email }}</p>
+
+                <span class="member">CUSTOMER ACCOUNT</span>
+
+                <div class="menu">
+
+                    <a href="/my-orders">
+                        <span class="menu-icon">📦</span>
+
+                        <span class="menu-text">
+                            <strong>My Orders</strong>
+                            <small>View your orders</small>
+                        </span>
+                    </a>
+
+                    <a href="/cart">
+                        <span class="menu-icon">🛒</span>
+
+                        <span class="menu-text">
+                            <strong>My Cart</strong>
+                            <small>Manage your cart</small>
+                        </span>
+                    </a>
+
+                </div>
+
+                <a href="/logout" class="btn logout">
+                    Logout
+                </a>
+
+            {% else %}
+
+                <h2>Welcome to Shahnuvay</h2>
+
+                <p class="email">
+                    Login to your account or create a new one.
+                </p>
+
+                <div class="auth-area">
+
+                    <a href="/login" class="btn login">
+                        Login to Your Account
+                    </a>
+
+                    <a href="/signup" class="btn signup">
+                        Create New Account
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+    <p>© 2026 Shahnuvay Marketplace. All rights reserved.</p>
+</footer>
+
+<!-- BOTTOM NAVIGATION -->
+
+<nav class="bottom-nav">
+
+    <a href="/">
+        <span>⌂</span>
+        Home
+    </a>
+
+    <a href="/shop">
+        <span>▦</span>
+        Shop
+    </a>
+
+    <a href="/cart">
+        <span>♡</span>
+        Cart
+    </a>
+
+    <a href="/profile" class="active">
+        <span>♙</span>
+        Account
+    </a>
+
+</nav>
+
+</body>
+</html>

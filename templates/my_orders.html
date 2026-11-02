@@ -1,0 +1,582 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Orders - Shahnuvay</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --blue: #0755e9;
+    --navy: #101b35;
+    --bg: #f5f7fc;
+    --text: #18243b;
+    --muted: #77839a;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding-bottom: 85px;
+}
+
+/* HEADER */
+
+.header {
+    background: white;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 15px #152b4c0d;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.logo-icon {
+    width: 53px;
+    height: 53px;
+    background: linear-gradient(135deg,#0755e9,#35a5ff);
+    color: white;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    font-size: 29px;
+}
+
+.logo h1 {
+    color: var(--blue);
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.logo small {
+    color: var(--navy);
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 24px;
+}
+
+.header-actions a {
+    color: var(--navy);
+    text-decoration: none;
+    font-size: 27px;
+}
+
+/* SEARCH */
+
+.search-area {
+    background: white;
+    padding: 15px 6%;
+}
+
+.search-box {
+    max-width: 1150px;
+    margin: auto;
+    display: flex;
+    border: 2px solid #dce6fa;
+    background: #f7f9fd;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.search-box input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 15px 18px;
+    font-size: 16px;
+}
+
+.search-box button {
+    border: none;
+    background: var(--blue);
+    color: white;
+    padding: 0 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* MAIN CONTENT */
+
+.container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.page-heading {
+    margin-bottom: 25px;
+}
+
+.page-heading h2 {
+    font-size: 30px;
+    color: var(--navy);
+}
+
+.page-heading p {
+    color: var(--muted);
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+/* ORDER CARD */
+
+.order {
+    background: white;
+    padding: 23px;
+    margin-bottom: 20px;
+    border-radius: 17px;
+    border: 1px solid #edf0f5;
+    box-shadow: 0 5px 20px #172d4a0b;
+    transition: .2s;
+}
+
+.order:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px #172d4a12;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 17px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.order-header h3 {
+    color: var(--navy);
+    font-size: 19px;
+}
+
+.status {
+    display: inline-block;
+    padding: 8px 14px;
+    background: #fff5e6;
+    color: #d97706;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.products-title {
+    font-size: 16px;
+    margin: 20px 0 10px;
+    color: var(--navy);
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 15px 0;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.item:last-child {
+    border-bottom: none;
+}
+
+.item strong {
+    font-size: 15px;
+    color: var(--text);
+}
+
+.item-details {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.item-details p {
+    margin: 0;
+}
+
+.order-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 17px;
+    padding: 15px;
+    background: #f2f6ff;
+    border-radius: 11px;
+}
+
+.order-total span {
+    color: var(--navy);
+    font-weight: bold;
+}
+
+.total {
+    color: var(--blue);
+    font-size: 20px;
+    font-weight: 900;
+}
+
+/* EMPTY ORDERS */
+
+.empty-orders {
+    background: white;
+    text-align: center;
+    padding: 55px 20px;
+    border-radius: 20px;
+    box-shadow: 0 6px 25px #152b4c09;
+}
+
+.empty-icon {
+    font-size: 65px;
+    margin-bottom: 15px;
+}
+
+.empty-orders h3 {
+    font-size: 23px;
+    color: var(--navy);
+}
+
+.empty-orders p {
+    color: var(--muted);
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.shop-button {
+    display: inline-block;
+    margin-top: 22px;
+    background: var(--blue);
+    color: white;
+    padding: 13px 25px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* FOOTER */
+
+.footer {
+    margin-top: 50px;
+    background: var(--navy);
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+.footer p {
+    font-size: 13px;
+    color: #bdc9dc;
+}
+
+/* BOTTOM NAVIGATION */
+
+.bottom-nav {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    box-shadow: 0 -4px 20px #14274715;
+    border-top: 1px solid #edf0f5;
+    padding: 10px 4px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    z-index: 1000;
+}
+
+.bottom-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    text-align: center;
+    text-decoration: none;
+    color: #738098;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.bottom-nav a:hover {
+    color: var(--blue);
+}
+
+.bottom-nav span {
+    font-size: 23px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:600px) {
+
+    .header {
+        padding: 13px 15px;
+    }
+
+    .logo-icon {
+        width: 43px;
+        height: 43px;
+        font-size: 23px;
+    }
+
+    .logo h1 {
+        font-size: 22px;
+    }
+
+    .header-actions {
+        gap: 14px;
+    }
+
+    .header-actions a {
+        font-size: 23px;
+    }
+
+    .search-area {
+        padding: 12px;
+    }
+
+    .search-box input {
+        padding: 13px 10px;
+        font-size: 14px;
+    }
+
+    .search-box button {
+        padding: 0 17px;
+        font-size: 14px;
+    }
+
+    .container {
+        margin-top: 22px;
+        padding: 0 13px;
+    }
+
+    .page-heading h2 {
+        font-size: 25px;
+    }
+
+    .order {
+        padding: 16px;
+    }
+
+    .order-header h3 {
+        font-size: 17px;
+    }
+
+    .item {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .item-details {
+        gap: 12px;
+    }
+
+    .empty-orders {
+        padding: 40px 15px;
+    }
+
+    .bottom-nav a {
+        font-size: 12px;
+    }
+
+    .bottom-nav span {
+        font-size: 22px;
+    }
+
+    .footer {
+        margin-top: 35px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <a href="/" class="logo">
+        <div class="logo-icon">🛍</div>
+
+        <div>
+            <h1>Shahnuvay</h1>
+            <small>MARKETPLACE</small>
+        </div>
+    </a>
+
+    <div class="header-actions">
+        <a href="/cart" title="Cart">🛒</a>
+        <a href="/profile" title="Account">👤</a>
+    </div>
+
+</header>
+
+<!-- SEARCH -->
+
+<div class="search-area">
+
+    <form action="/shop" method="GET" class="search-box">
+
+        <input
+            type="search"
+            name="q"
+            placeholder="Search for products..."
+        >
+
+        <button type="submit">Search</button>
+
+    </form>
+
+</div>
+
+<!-- ORDERS CONTENT -->
+
+<main class="container">
+
+    <div class="page-heading">
+        <h2>My Orders 📦</h2>
+        <p>Track and view your shopping orders.</p>
+    </div>
+
+    {% if orders %}
+
+        {% for entry in orders %}
+
+            <div class="order">
+
+                <div class="order-header">
+
+                    <h3>Order #{{ entry.order.id }}</h3>
+
+                    <span class="status">
+                        {{ entry.order.status }}
+                    </span>
+
+                </div>
+
+                <h4 class="products-title">Products</h4>
+
+                {% for item in entry.items %}
+
+                    <div class="item">
+
+                        <strong>
+                            {{ item.product_name }}
+                        </strong>
+
+                        <div class="item-details">
+
+                            <p>
+                                Quantity: {{ item.quantity }}
+                            </p>
+
+                            <p>
+                                Price: Rs. {{ item.unit_price }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+                <div class="order-total">
+
+                    <span>Order Total</span>
+
+                    <span class="total">
+                        Rs. {{ entry.order.total }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty-orders">
+
+            <div class="empty-icon">📦</div>
+
+            <h3>No Orders Yet!</h3>
+
+            <p>
+                You have not placed any orders yet.
+                Start shopping and your orders will appear here.
+            </p>
+
+            <a href="/shop" class="shop-button">
+                Start Shopping →
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</main>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+    <p>© 2026 Shahnuvay Marketplace. All rights reserved.</p>
+</footer>
+
+<!-- BOTTOM NAVIGATION -->
+
+<nav class="bottom-nav">
+
+    <a href="/">
+        <span>⌂</span>
+        Home
+    </a>
+
+    <a href="/shop">
+        <span>▦</span>
+        Shop
+    </a>
+
+    <a href="/cart">
+        <span>♡</span>
+        Cart
+    </a>
+
+    <a href="/profile">
+        <span>♙</span>
+        Account
+    </a>
+
+</nav>
+
+</body>
+</html>
