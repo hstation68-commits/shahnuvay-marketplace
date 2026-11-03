@@ -1,130 +1,120 @@
-
 import os
-import sqlite3
-
+import psycopg2
+from psycopg2.extras import RealDictCursor
 from functools import wraps
+
 from flask import Flask, render_template, request, redirect, session
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
 app = Flask(__name__)
 
-# Secret key environment variable se lena
-app.secret_key = os.environ.get(
-    "SECRET_KEY",
-    "change-this-to-a-new-random-secret-key"
-)
+app.secret_key = os.environ.get("SECRET_KEY")
+
+if not app.secret_key:
+    raise RuntimeError("SECRET_KEY environment variable is missing.")
 
 app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE="Lax",
-    SESSION_COOKIE_SECURE=False
+    SESSION_COOKIE_SECURE=os.environ.get("RENDER", "") == "true"
 )
 
 
-# ================= DATABASE =================
+# ================= POSTGRESQL DATABASE =================
 
-os.makedirs("database", exist_ok=True)
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
-DB_PATH = "database/shahnuvay.db"
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL environment variable is missing.")
+
+
+class DatabaseConnection:
+
+    def __init__(self):
+        self.connection = psycopg2.connect(
+            DATABASE_URL,
+            cursor_factory=RealDictCursor,
+            sslmode="require"
+        )
+
+    def execute(self, query, params=None):
+        query = query.replace("?", "%s")
+        cursor = self.connection.cursor()
+        cursor.execute(query, params or ())
+        return cursor
+
+    def commit(self):
+        self.connection.commit()
+
+    def rollback(self):
+        self.connection.rollback()
+
+    def close(self):
+        self.connection.close()
 
 
 def get_db():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
+    return DatabaseConnection()
 
 
 def create_tables():
 
     conn = get_db()
 
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            email TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL,
-            role TEXT NOT NULL DEFAULT 'customer'
-        )
-    """)
+    try:
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS users (
+                id SERIAL PRIMARY KEY,
+                name TEXT NOT NULL,
+                email TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL,
+                role TEXT NOT NULL DEFAULT 'customer'
+            )
+        """)
 
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS products (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            price REAL NOT NULL,
-            description TEXT,
-            image TEXT,
-            stock INTEGER DEFAULT 0
-        )
-    """)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS products (
+                id SERIAL PRIMARY KEY,
+                name TEXT NOT NULL,
+                price DOUBLE PRECISION NOT NULL,
+                description TEXT,
+                image TEXT,
+                stock INTEGER DEFAULT 0
+            )
+        """)
 
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS orders (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            customer_id INTEGER NOT NULL,
-            customer_name TEXT,
-            phone TEXT,
-            address TEXT,
-            total REAL NOT NULL,
-            status TEXT DEFAULT 'Pending'
-        )
-    """)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS orders (
+                id SERIAL PRIMARY KEY,
+                customer_id INTEGER NOT NULL,
+                customer_name TEXT,
+                phone TEXT,
+                address TEXT,
+                total DOUBLE PRECISION NOT NULL,
+                status TEXT DEFAULT 'Pending'
+            )
+        """)
 
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS order_items (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            order_id INTEGER NOT NULL,
-            product_id INTEGER,
-            product_name TEXT NOT NULL,
-            quantity INTEGER NOT NULL,
-            unit_price REAL NOT NULL,
-            FOREIGN KEY (order_id) REFERENCES orders(id)
-        )
-    """)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS order_items (
+                id SERIAL PRIMARY KEY,
+                order_id INTEGER NOT NULL REFERENCES orders(id),
+                product_id INTEGER,
+                product_name TEXT NOT NULL,
+                quantity INTEGER NOT NULL,
+                unit_price DOUBLE PRECISION NOT NULL
+            )
+        """)
 
-    # Existing database mein missing columns add karna
+        conn.commit()
 
-    columns = [
-        row["name"]
-        for row in conn.execute(
-            "PRAGMA table_info(orders)"
-        ).fetchall()
-    ]
+    except Exception:
+        conn.rollback()
+        raise
 
-    if "customer_id" not in columns:
-        conn.execute(
-            "ALTER TABLE orders ADD COLUMN customer_id INTEGER"
-        )
-
-    if "customer_name" not in columns:
-        conn.execute(
-            "ALTER TABLE orders ADD COLUMN customer_name TEXT"
-        )
-
-    if "phone" not in columns:
-        conn.execute(
-            "ALTER TABLE orders ADD COLUMN phone TEXT"
-        )
-
-    if "address" not in columns:
-        conn.execute(
-            "ALTER TABLE orders ADD COLUMN address TEXT"
-        )
-
-    if "total" not in columns:
-        conn.execute(
-            "ALTER TABLE orders ADD COLUMN total REAL"
-        )
-
-    if "status" not in columns:
-        conn.execute(
-            "ALTER TABLE orders ADD COLUMN status TEXT DEFAULT 'Pending'"
-        )
-
-    conn.commit()
-    conn.close()
+    finally:
+        conn.close()
 
 
 create_tables()
@@ -168,11 +158,9 @@ def signup():
         else:
 
             password_hash = generate_password_hash(password)
-
             conn = get_db()
 
             try:
-
                 conn.execute(
                     """
                     INSERT INTO users (name, email, password)
@@ -187,8 +175,8 @@ def signup():
                     "Account created successfully! Please log in."
                 )
 
-            except sqlite3.IntegrityError:
-
+            except psycopg2.IntegrityError:
+                conn.rollback()
                 error_message = "This email is already registered."
 
             finally:
@@ -213,12 +201,13 @@ def login():
 
         conn = get_db()
 
-        user = conn.execute(
-            "SELECT * FROM users WHERE email = ?",
-            (email,)
-        ).fetchone()
-
-        conn.close()
+        try:
+            user = conn.execute(
+                "SELECT * FROM users WHERE email = ?",
+                (email,)
+            ).fetchone()
+        finally:
+            conn.close()
 
         if user and check_password_hash(user["password"], password):
 
@@ -239,7 +228,6 @@ def login():
 def logout():
 
     session.clear()
-
     return redirect("/login")
 
 
@@ -250,11 +238,12 @@ def home():
 
     conn = get_db()
 
-    products = conn.execute(
-        "SELECT * FROM products ORDER BY id DESC"
-    ).fetchall()
-
-    conn.close()
+    try:
+        products = conn.execute(
+            "SELECT * FROM products ORDER BY id DESC"
+        ).fetchall()
+    finally:
+        conn.close()
 
     return render_template(
         "index.html",
@@ -268,28 +257,29 @@ def home():
 def shop():
 
     search_query = request.args.get("q", "").strip()
-
     conn = get_db()
 
-    if search_query:
+    try:
+        if search_query:
 
-        products = conn.execute(
-            """
-            SELECT * FROM products
-            WHERE name LIKE ?
-               OR description LIKE ?
-            ORDER BY id DESC
-            """,
-            (f"%{search_query}%", f"%{search_query}%")
-        ).fetchall()
+            products = conn.execute(
+                """
+                SELECT * FROM products
+                WHERE name LIKE ?
+                   OR description LIKE ?
+                ORDER BY id DESC
+                """,
+                (f"%{search_query}%", f"%{search_query}%")
+            ).fetchall()
 
-    else:
+        else:
 
-        products = conn.execute(
-            "SELECT * FROM products ORDER BY id DESC"
-        ).fetchall()
+            products = conn.execute(
+                "SELECT * FROM products ORDER BY id DESC"
+            ).fetchall()
 
-    conn.close()
+    finally:
+        conn.close()
 
     return render_template(
         "shop.html",
@@ -305,12 +295,13 @@ def product_details(product_id):
 
     conn = get_db()
 
-    product = conn.execute(
-        "SELECT * FROM products WHERE id = ?",
-        (product_id,)
-    ).fetchone()
-
-    conn.close()
+    try:
+        product = conn.execute(
+            "SELECT * FROM products WHERE id = ?",
+            (product_id,)
+        ).fetchone()
+    finally:
+        conn.close()
 
     if product is None:
         return "Product not found!", 404
@@ -328,12 +319,13 @@ def add_to_cart(product_id):
 
     conn = get_db()
 
-    product = conn.execute(
-        "SELECT * FROM products WHERE id = ?",
-        (product_id,)
-    ).fetchone()
-
-    conn.close()
+    try:
+        product = conn.execute(
+            "SELECT * FROM products WHERE id = ?",
+            (product_id,)
+        ).fetchone()
+    finally:
+        conn.close()
 
     if product is None:
         return "Product not found!", 404
@@ -342,7 +334,6 @@ def add_to_cart(product_id):
         return "Product is out of stock!", 400
 
     cart = session.get("cart", {})
-
     product_key = str(product_id)
     current_quantity = cart.get(product_key, 0)
 
@@ -350,7 +341,6 @@ def add_to_cart(product_id):
         return "Not enough stock!", 400
 
     cart[product_key] = current_quantity + 1
-
     session["cart"] = cart
 
     return redirect("/cart")
@@ -362,31 +352,30 @@ def add_to_cart(product_id):
 def cart():
 
     cart_items = session.get("cart", {})
-
     products = []
     total = 0
 
     conn = get_db()
 
-    for product_id, quantity in cart_items.items():
+    try:
+        for product_id, quantity in cart_items.items():
 
-        product = conn.execute(
-            "SELECT * FROM products WHERE id = ?",
-            (product_id,)
-        ).fetchone()
+            product = conn.execute(
+                "SELECT * FROM products WHERE id = ?",
+                (product_id,)
+            ).fetchone()
 
-        if product:
+            if product:
 
-            item = dict(product)
+                item = dict(product)
+                item["quantity"] = quantity
+                item["subtotal"] = item["price"] * quantity
 
-            item["quantity"] = quantity
-            item["subtotal"] = item["price"] * quantity
+                total += item["subtotal"]
+                products.append(item)
 
-            total += item["subtotal"]
-
-            products.append(item)
-
-    conn.close()
+    finally:
+        conn.close()
 
     return render_template(
         "cart.html",
@@ -401,7 +390,6 @@ def cart():
 def remove_from_cart(product_id):
 
     cart = session.get("cart", {})
-
     product_key = str(product_id)
 
     if product_key in cart:
@@ -418,7 +406,6 @@ def remove_from_cart(product_id):
 def update_cart(product_id, action):
 
     cart = session.get("cart", {})
-
     product_key = str(product_id)
 
     if product_key not in cart:
@@ -426,15 +413,15 @@ def update_cart(product_id, action):
 
     conn = get_db()
 
-    product = conn.execute(
-        "SELECT stock FROM products WHERE id = ?",
-        (product_id,)
-    ).fetchone()
-
-    conn.close()
+    try:
+        product = conn.execute(
+            "SELECT stock FROM products WHERE id = ?",
+            (product_id,)
+        ).fetchone()
+    finally:
+        conn.close()
 
     if product is None:
-
         cart.pop(product_key, None)
 
     elif action == "increase":
@@ -477,11 +464,10 @@ def checkout():
         conn = get_db()
 
         try:
-
             total = 0
             order_items = []
 
-            # Step 1: Check products and stock
+            # Check products and stock
 
             for product_id, quantity in cart.items():
 
@@ -512,13 +498,14 @@ def checkout():
                     product["price"]
                 ))
 
-            # Step 2: Create order
+            # Create order
 
             cursor = conn.execute(
                 """
                 INSERT INTO orders
                 (customer_id, customer_name, phone, address, total, status)
                 VALUES (?, ?, ?, ?, ?, ?)
+                RETURNING id
                 """,
                 (
                     session["user_id"],
@@ -530,9 +517,9 @@ def checkout():
                 )
             )
 
-            order_id = cursor.lastrowid
+            order_id = cursor.fetchone()["id"]
 
-            # Step 3: Save order items and update stock
+            # Save order items and update stock
 
             for product_id, product_name, quantity, unit_price in order_items:
 
@@ -565,24 +552,17 @@ def checkout():
                         f"Stock changed for {product_name}. Please try again."
                     )
 
-            # Step 4: Save order
-
             conn.commit()
-
             session["cart"] = {}
 
-            return (
-                f"Order placed successfully! Order ID: {order_id}"
-            )
+            return f"Order placed successfully! Order ID: {order_id}"
 
         except Exception as error:
 
             conn.rollback()
-
             return str(error), 400
 
         finally:
-
             conn.close()
 
     return render_template("checkout.html")
@@ -598,12 +578,13 @@ def profile():
 
     conn = get_db()
 
-    user = conn.execute(
-        "SELECT id, name, email FROM users WHERE id = ?",
-        (session["user_id"],)
-    ).fetchone()
-
-    conn.close()
+    try:
+        user = conn.execute(
+            "SELECT id, name, email FROM users WHERE id = ?",
+            (session["user_id"],)
+        ).fetchone()
+    finally:
+        conn.close()
 
     if user is None:
 
@@ -628,30 +609,32 @@ def my_orders():
 
     conn = get_db()
 
-    orders = conn.execute(
-        """
-        SELECT * FROM orders
-        WHERE customer_id = ?
-        ORDER BY id DESC
-        """,
-        (session["user_id"],)
-    ).fetchall()
-
-    order_details = []
-
-    for order in orders:
-
-        items = conn.execute(
-            "SELECT * FROM order_items WHERE order_id = ?",
-            (order["id"],)
+    try:
+        orders = conn.execute(
+            """
+            SELECT * FROM orders
+            WHERE customer_id = ?
+            ORDER BY id DESC
+            """,
+            (session["user_id"],)
         ).fetchall()
 
-        order_details.append({
-            "order": order,
-            "items": items
-        })
+        order_details = []
 
-    conn.close()
+        for order in orders:
+
+            items = conn.execute(
+                "SELECT * FROM order_items WHERE order_id = ?",
+                (order["id"],)
+            ).fetchall()
+
+            order_details.append({
+                "order": order,
+                "items": items
+            })
+
+    finally:
+        conn.close()
 
     return render_template(
         "my_orders.html",
@@ -662,4 +645,4 @@ def my_orders():
 # ================= RUN APP =================
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=os.environ.get("FLASK_DEBUG") == "1")
